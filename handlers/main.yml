@@ -1,0 +1,5 @@
+---
+- name: Restart Bitmessage
+  service:
+    name: bitmessage
+    state: restarted

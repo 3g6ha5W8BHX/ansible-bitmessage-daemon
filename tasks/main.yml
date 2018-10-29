@@ -1,0 +1,93 @@
+---
+
+- name: Check for supported OS distribution
+  fail:
+    msg: "Unsupported distribution: {{ ansible_distribution }}"
+  when: "ansible_distribution not in bitmessage_role_supported_distributions"
+
+- name: Install apt dependencies
+  apt:
+    name: ['libssl-dev', 'python-pip', 'python-msgpack']
+    state: present
+
+- name: install pip dependencies
+  pip:
+    name: requests
+
+- name: Download Bitmessage release
+  get_url:
+    url: "{{ bitmessage_url }}"
+    dest: "/tmp/{{ bitmessage_archive }}"
+    checksum: "sha256:{{ bitmessage_archive_sha256 }}"
+
+- name: install from tarball
+  pip:
+    name: "/tmp/{{ bitmessage_archive }}"
+
+- name: Create bitmessage group
+  group:
+    name: bitmessage
+    system: yes
+
+- name: Create bitmessage user
+  user:
+    name: bitmessage
+    group: bitmessage
+    system: yes
+    createhome: no
+    home: /var/lib/bitmessage
+
+- name: Bitmessage daemon directories
+  file:
+    path: "{{ item.path}}"
+    state: directory
+    owner: "{{ item.owner|default('root') }}"
+    group: "{{ item.group|default('root') }}"
+  with_items:
+    - path: /var/lib/bitmessage
+      owner: bitmessage
+      group: bitmessage
+    - path: /var/run/bitmessage
+      owner: bitmessage
+      group: bitmessage
+    - path: /var/log/bitmessage
+      owner: bitmessage
+      group: bitmessage
+
+- name: Bitmessage defaults file
+  template:
+    src: bitmessage.default.j2
+    dest: /etc/default/bitmessage
+  notify: Restart Bitmessage
+
+- name: Creates config directory
+  file:
+    path: /var/lib/bitmessage/.config/PyBitmessage
+    owner: bitmessage
+    group: bitmessage
+    state: directory
+
+- name: Bitmessage keys.dat file
+  template:
+    src: keys.dat.j2
+    dest: /var/lib/bitmessage/.config/PyBitmessage/keys.dat
+    owner: bitmessage
+    group: bitmessage
+    mode: 0600
+  notify: Restart Bitmessage
+
+- name: bitmessage systemd service
+  copy:
+    src: bitmessage.service
+    dest: /lib/systemd/system/bitmessage.service
+  register: bitmessage_systemd_service
+
+- name: Systemd daemon reload
+  command: systemctl daemon-reload
+  when: bitmessage_systemd_service.changed
+
+- name: Start bitmessage daemon
+  service:
+    name: bitmessage
+    state: started
+    enabled: yes

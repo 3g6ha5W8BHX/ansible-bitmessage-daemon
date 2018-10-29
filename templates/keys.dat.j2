@@ -1,0 +1,14 @@
+[bitmessagesettings]
+{% if bitmesage_settings is defined %}
+{% for key, value in bitmesage_settings.items() %}
+{% if value %}
+{{ key }} = {{ value }}
+{% else %}
+{{ key }} =
+{% endif %}
+{% endfor %}
+{% endif %}
+
+{% if bitmessage_address_block is defined %}
+{{ bitmessage_address_block }}
+{% endif %}

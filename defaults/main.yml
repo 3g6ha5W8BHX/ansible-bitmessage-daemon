@@ -1,0 +1,81 @@
+
+bitmessage_role_supported_distributions:
+  - Ubuntu
+
+bitmessage_version: "0.6.3.2"
+bitmessage_archive: "{{bitmessage_version}}.tar.gz"
+bitmessage_url: "https://github.com/Bitmessage/PyBitmessage/archive/{{ bitmessage_archive }}"
+bitmessage_archive_sha256: "1008d9b34070774267df005389d7e478b42131f79b63c40b1eb8212e67067ac3"
+
+bitmessage_apienabled: "true"
+bitmessage_apiport: 8442
+bitmessage_apiinterface: 127.0.0.1
+bitmessage_apiusername: username
+bitmessage_apipassword: password
+bitmessage_apinotifypath: ""
+
+# optional
+# bitmessage_address_block: |
+#     [BM-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX]
+#     label =
+#     enabled = true
+#     decoy = false
+#     noncetrialsperbyte = 1000
+#     payloadlengthextrabytes = 1000
+#     privsigningkey =    YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
+#     privencryptionkey = XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+#     lastpubkeysendtime = 1537118496
+
+# keys.dat file
+bitmesage_settings:
+    settingsversion: 10
+    port: 8444
+    timeformat: "%%c"
+    blackwhitelist: black
+    startonlogon: "false"
+    minimizetotray: "false"
+    showtraynotifications: "true"
+    startintray: "false"
+    socksproxytype: "none"
+    sockshostname: "localhost"
+    socksport: 9050
+    socksauthentication: "false"
+    sockslisten: "false"
+    socksusername: ""
+    sockspassword: ""
+    keysencrypted: "false"
+    messagesencrypted: "false"
+    defaultnoncetrialsperbyte: "1000"
+    defaultpayloadlengthextrabytes: "1000"
+    minimizeonclose: "false"
+    maxacceptablenoncetrialsperbyte: 20000000000
+    maxacceptablepayloadlengthextrabytes: 20000000000
+    userlocale: system
+    useidenticons: "True"
+    identiconsuffix: tLNciZBkTPn7
+    replybelow: "False"
+    maxdownloadrate: 0
+    maxuploadrate: 0
+    maxoutboundconnections: 8
+    ttl: 367200
+    stopresendingafterxdays: ""
+    stopresendingafterxmonths: ""
+    namecoinrpctype: namecoind
+    namecoinrpchost: localhost
+    namecoinrpcuser: ""
+    namecoinrpcpassword:
+    namecoinrpcport: 8336
+    sendoutgoingconnections: "True"
+    onionhostname: ""
+    onionport: 8444
+    onionbindip: 127.0.0.1
+    smtpdeliver: ""
+    hidetrayconnectionnotifications: "false"
+    daemon: "true"
+    apienabled: "{{ bitmessage_apienabled }}"
+    apiport: "{{ bitmessage_apiport }}"
+    apiinterface: "{{ bitmessage_apiinterface }}"
+    apiusername: "{{ bitmessage_apiusername }}"
+    apipassword: "{{ bitmessage_apipassword }}"
+    apinotifypath: "{{ bitmessage_apinotifypath }}"
+    #dontconnect: "true"
